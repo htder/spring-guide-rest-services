@@ -1,4 +1,4 @@
-package com.watermelon.RESTServices;
+package com.watermelon.RESTServices.employee;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

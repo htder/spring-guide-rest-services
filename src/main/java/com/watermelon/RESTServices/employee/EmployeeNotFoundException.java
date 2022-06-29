@@ -1,4 +1,4 @@
-package com.watermelon.RESTServices;
+package com.watermelon.RESTServices.employee;
 
 public class EmployeeNotFoundException extends RuntimeException{
 

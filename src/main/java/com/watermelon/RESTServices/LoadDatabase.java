@@ -1,5 +1,7 @@
 package com.watermelon.RESTServices;
 
+import com.watermelon.RESTServices.employee.Employee;
+import com.watermelon.RESTServices.employee.EmployeeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;

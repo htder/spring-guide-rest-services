@@ -1,4 +1,4 @@
-package com.watermelon.RESTServices;
+package com.watermelon.RESTServices.employee;
 
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
