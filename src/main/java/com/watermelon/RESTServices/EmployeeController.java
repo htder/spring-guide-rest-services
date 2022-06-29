@@ -80,7 +80,8 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/employees/{id}")
-    void deleteEmployee(@PathVariable Long id) {
+    ResponseEntity<?> deleteEmployee(@PathVariable Long id) {
         this.employeeRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }
