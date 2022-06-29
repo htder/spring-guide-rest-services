@@ -16,6 +16,13 @@ public class Order {
     public String description;
     public Status status;
 
+    public Order() {}
+
+    public Order(String description, Status status) {
+        this.description = description;
+        this.status = status;
+    }
+
     public Long getId() {
         return id;
     }
