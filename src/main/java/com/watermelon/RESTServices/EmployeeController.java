@@ -2,6 +2,8 @@ package com.watermelon.RESTServices;
 
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,8 +39,14 @@ public class EmployeeController {
     }
 
     @PostMapping("/employees")
-    Employee newEmployee(@RequestBody Employee newEmployee) {
-        return this.employeeRepository.save(newEmployee);
+    ResponseEntity<?> newEmployee(@RequestBody Employee newEmployee) {
+        EntityModel<Employee> entityModel =
+                this.employeeModelAssembler.toModel(
+                        this.employeeRepository.save(newEmployee)
+                );
+        return ResponseEntity
+                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+                .body(entityModel);
     }
 
     @GetMapping("/employees/{id}")
@@ -49,19 +57,26 @@ public class EmployeeController {
     }
 
     @PutMapping("/employees/{id}")
-    Employee replaceEmployee(
+    ResponseEntity<?> replaceEmployee(
             @RequestBody Employee newEmployee,
             @PathVariable Long id
     ) {
-        return this.employeeRepository.findById(id)
+
+        Employee updatedEmployee = this.employeeRepository.findById(id)
                 .map(employee -> {
                     employee.setName(newEmployee.getName());
                     employee.setRole(newEmployee.getRole());
                     return this.employeeRepository.save(employee);
-                }).orElseGet(() -> {
+                })
+                .orElseGet(() -> {
                     newEmployee.setId(id);
                     return this.employeeRepository.save(newEmployee);
                 });
+
+        EntityModel<Employee> entityModel = this.employeeModelAssembler.toModel(updatedEmployee);
+        return ResponseEntity
+                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+                .body(entityModel);
     }
 
     @DeleteMapping("/employees/{id}")
